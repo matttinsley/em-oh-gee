@@ -23,18 +23,21 @@ def get_images_and_labels(path):
     # label assigned to image
     labels = []
 
-    for image_path in image_paths:
+    for j, image_path in enumerate(image_paths):
         image_pil = Image.open(image_path).convert('L')
         image = numpy.array(image_pil, 'uint8')
 
         # get label of image (use naming pattern crying_face-1.jpg, crying_face-2.jpg, etc)
         label = os.path.split(image_path)[1].split('-')[0]
 
-        faces = frontal_face_cascade.detectMultiScale(image)
-        print(faces)
+        faces = frontal_face_cascade.detectMultiScale(image, minSize=(100,100))
 
-        for(x, y, w, h) in faces:
-            print("doing a thing to a face")
+        faces = group_faces(faces)
+
+        for i, (x, y, w, h) in enumerate(faces):
+            if len(faces) > 1:
+                print("outputting image")
+                image_pil.crop((x, y, x+w, y+h)).save('output/' + label + str(i) + str(j) + '.jpg')
             images.append(image[y: y+h, x: x+w])
             labels.append(label)
 
@@ -66,6 +69,28 @@ def lookup_label(code):
 def lookup_code(label):
     return codes.index(label)
 
+
+def group_faces(faces):
+    if len(faces) < 2:
+        return faces
+
+    min_x = float('inf')
+    min_y = float('inf')
+    max_x = -1
+    max_y = -1
+    for face in faces:
+        if face[0] < min_x:
+            min_x = face[0]
+        if face[1] < min_y:
+            min_y = face[1]
+        if face[0]+face[2] > max_x:
+            max_x = face[0]+face[2]
+        if face[1]+face[3] > max_y:
+            max_y = face[1] + face[3]
+
+    return [[min_x, min_y, max_x-min_x, max_y-min_y]]
+
+
 if __name__ == '__main__':
 
     (images, labels) = get_images_and_labels("./training")
@@ -78,7 +103,7 @@ if __name__ == '__main__':
         label_code_array.append(lookup_code(label))
 
     recognizer.train(images, numpy.array(label_code_array))
-    classify_image("angry-11.jpg")
+    classify_image("happy-10.jpg")
 
 
 

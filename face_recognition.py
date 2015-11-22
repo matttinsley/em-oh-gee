@@ -9,7 +9,7 @@ import cv2
 
 frontal_face_path = "./cascades/haarcascade_frontalface_default.xml"
 frontal_face_cascade = cv2.CascadeClassifier(frontal_face_path)
-recognizer = cv2.createLBPHFaceRecognizer()
+recognizer = cv2.face.createLBPHFaceRecognizer()
 
 # takes a PIL image format
 def classify_image(image):
@@ -21,14 +21,14 @@ def classify_image(image):
 
     (x, y, w, h) = faces[0]
     predicted_label_code, confidence = recognizer.predict(image[y: y+h, x: x+w])
-    print predicted_label_code
-    print ("Classified:", classification_utils.lookup_label(predicted_label_code), "with confidence", confidence)
-    print ""
+    print(predicted_label_code)
+    print("Classified:", classification_utils.lookup_label(predicted_label_code), "with confidence", confidence)
+    print("")
 
 
 def test_images(path):
     for image in filter( lambda f: not f.startswith('.'), os.listdir(path)):
-        print image
+        print(image)
         pil_image = Image.open(path + "/" + image)
         classify_image(pil_image)
 
@@ -50,7 +50,7 @@ def classify_from_webcam():
         for (x, y, w, h) in faces:
             cv2.rectangle(gray , (x, y), (x+w, y+h), (0, 255, 0), 2)
             predicted_label_code, confidence = recognizer.predict(gray[y: y+h, x: x+w])
-            print "******************************", classification_utils.lookup_label(predicted_label_code)
+            print("******************************", classification_utils.lookup_label(predicted_label_code))
 
         cv2.imshow('ImageWindow', gray)
         cv2.waitKey(1)

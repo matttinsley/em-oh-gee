@@ -24,7 +24,7 @@ emos = {1 : ':grinning_face:',
 @app.route('/facemoji', methods=['POST'])
 def emoji_for_face():
     img_data = request.data
-    print(img_data)
+    #print(img_data)
 
     img_file = open('img.jpg', 'wb')
     img_file.write(img_data)
@@ -33,6 +33,10 @@ def emoji_for_face():
 
     return emoji.emojize(face_recognition.classify_image(image))
 
+@app.route('/')
+def test():
+    return '<h1>The thing works!!!</h1>'
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
     face_recognition.load_training()

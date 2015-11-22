@@ -25,6 +25,7 @@ def classify_image(image):
     print("Classified:", classification_utils.lookup_label(predicted_label_code), "with confidence", confidence)
     print("")
 
+    return classification_utils.lookup_label(predicted_label_code)
 
 def test_images(path):
     for image in filter( lambda f: not f.startswith('.'), os.listdir(path)):

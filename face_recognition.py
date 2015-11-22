@@ -32,12 +32,12 @@ def test_images(path):
         pil_image = Image.open(path + "/" + image)
         classify_image(pil_image)
 
+
 def load_training():
     recognizer.load("recognizer.dat")
 
-if __name__ == '__main__':
 
-    # Do classification here
+def classify_from_webcam():
     while True:
         video_capture = cv2.VideoCapture(0)
         ret, frame = video_capture.read()
@@ -55,4 +55,8 @@ if __name__ == '__main__':
         cv2.imshow('ImageWindow', gray)
         cv2.waitKey(1)
         time.sleep(1)
+
+if __name__ == '__main__':
+    load_training()
+    classify_from_webcam()
 

@@ -1,7 +1,7 @@
 from flask import Flask, request
 from PIL import Image
 import emoji
-#import face_recognition
+import face_recognition
 
 app = Flask(__name__)
 
@@ -31,7 +31,7 @@ def emoji_for_face():
 
     image = Image.open('img.jpg')
 
-    return face_recognition.classify_image(image)
+    return emoji.emojize(face_recognition.classify_image(image))
 
 if __name__ == '__main__':
     app.run(debug=True)

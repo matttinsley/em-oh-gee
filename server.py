@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template
 from PIL import Image
+from flask.ext.cors import CORS
 import emoji
 import face_recognition
 import base64
 
 app = Flask(__name__)
+CORS(app)
 
 def get_emoji(image_bin):
     with open('img.jpg', 'wb') as img_file:  

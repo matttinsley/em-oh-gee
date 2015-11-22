@@ -27,14 +27,13 @@ window.addEventListener("DOMContentLoaded", function() {
         }, errBack);
     }
 
-    document.getElementById("snap").addEventListener("click", function() {
-        context.drawImage(video, 0, 0, 640, 480);
-    });
 
     document.getElementById("gen_image").addEventListener("click", function(){
+        context.drawImage(video, 0, 0, 640, 480);
         var image = convertCanvasToImage(canvas);
-        $("#emoji").innerHTML = classify_face(image);
-    })
+        classify_face(image, emoji_callback);
+    });
+
 
 }, false);
 
@@ -45,12 +44,20 @@ function convertCanvasToImage(canvas) {
     return image;
 }
 
-function classify_face(image) {
+function classify_face(image, callback) {
     $.ajax({
         type: "POST",
-        url: "http://clemence.cloudapp.net/facemoji",
-        data: {
-            data: image
+        url: "http://clemence.cloudapp.net/facemoji/encrypted",
+        data: image,
+        success: callback,
+        error: function(){
+            console.log("failed");
         }
-    })
+    });
+}
+
+
+function emoji_callback(result){
+    console.log("Got response: " + result);
+    $("emoji").text(result);
 }

@@ -47,6 +47,10 @@ def webcam():
     return render_template('classifier_demo.html', name="Webcam")
 
 
+@app.route('/landing')
+def landing():
+    return render_template('landing.html', name="HI")
+
 @app.route('/')
 def test():
     return emoji.emojize(':smiling_face_with_heart-shaped_eyes:')

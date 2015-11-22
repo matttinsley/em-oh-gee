@@ -9,7 +9,8 @@ import cv2
 
 frontal_face_path = "./cascades/haarcascade_frontalface_default.xml"
 frontal_face_cascade = cv2.CascadeClassifier(frontal_face_path)
-recognizer = cv2.face.createLBPHFaceRecognizer()
+recognizer = cv2.createLBPHFaceRecognizer()
+#recognizer = cv2.face.createLBPHFaceRecognizer()
 
 # takes a PIL image format
 def classify_image(image):

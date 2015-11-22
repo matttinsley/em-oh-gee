@@ -1,4 +1,4 @@
-window.addEventListener("DOMContentLoaded", function() {
+$(document).ready( function() {
     // Grab elements, create settings, etc.
     var canvas = document.getElementById("canvas"),
         context = canvas.getContext("2d"),
@@ -58,6 +58,7 @@ function classify_face(image, callback) {
 
 
 function emoji_callback(result){
-    console.log("Got response: " + result);
-    $("emoji").text(result);
+    $("#text_box").val(function(index, val) {
+        return val + result;
+    })
 }

@@ -50,21 +50,19 @@
 	<div id="headerwrap">
 		<div class="container">
 			<div class="row" style="height: 75vh;">
-				<div class="col-lg-6" style="margin-left: -100px">
-					<h1>Take the guesswork<br/>
+				<div class="col-lg-6" style="margin-left: -80px">
+					<h1 style="margin-bottom:50px;">Take the guesswork<br/>
 					out of emojis.</h1>
 					  <div class="form-group">
-					    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your text">
+					    <input type="text" class="form-control input-lg" id="text_box" placeholder="Enter your text">
 					  </div>
-					  <button id="gen_image" class="btn btn-warning btn-lg">Insert Emoji</button>
+					  <button id="gen_image" class="btn btn-warning btn-lg" style="margin-left:140px">Insert Emoji</button>
 				</div><!-- /col-lg-6 -->
                 <div style="position: fixed; margin-left: 350px; width: 500px;">
 				<div class="col-lg-6" style="position:relative; width: 1200px;">
 					<img class="img-responsive" style="width:1050px; height:750px" src="static/img/ipad.png" alt="">
-                  <div>
-                    <video id="video" style="position:absolute; margin-top:-640px; margin-left: 200px" autoplay></video>
-                    <canvas id="canvas" style="position:absolute; margin-top:-640px; margin-left: 200px" ></canvas>
-                  </div>
+                    <canvas id="canvas" width="640" height="480" style="position:absolute; margin-top:-640px; margin-left: 200px" ></canvas>
+                    <video id="video" width="640" height="480" style="position:absolute; margin-top:-640px; margin-left: 200px" autoplay></video>
                 </div>
 				</div><!-- /col-lg-6 -->
 			</div><!-- /row -->
@@ -73,7 +71,7 @@
 	
 	<div class="container">
       <br>
-		<p id="footer" class="centered">Created by Matt Tinsley and Matt Arnold; theme based on blacktie.co</p>
+		<p id="footer" class="centered" >Created by Matt Tinsley and Matt Arnold; theme based on blacktie.co</p>
 	</div><!-- /container -->
 	
 

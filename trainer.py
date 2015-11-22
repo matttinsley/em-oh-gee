@@ -1,3 +1,5 @@
+import random
+
 import numpy
 import os
 import sys
@@ -42,28 +44,66 @@ def get_images_and_labels(path):
     labels = []
 
     for dir in image_dirs:
-        image_paths = [os.path.join(path + "/" + dir, f) for f in filter( lambda f: not f.startswith('.'), os.listdir(path + "/" + dir))]
+        if not dir.startswith('.'):
+            image_paths = [os.path.join(path + "/" + dir, f) for f in filter( lambda f: not f.startswith('.'), os.listdir(path + "/" + dir))]
 
-        for image_path in image_paths:
-            image_pil = Image.open(image_path).convert('L')
-            image = numpy.array(image_pil, 'uint8')
+            for image_path in image_paths:
+                image_pil = Image.open(image_path).convert('L')
+                image = numpy.array(image_pil, 'uint8')
 
-            # get label of image from directory name
-            label = ':' + dir + ':'
+                # get label of image from directory name
+                label = ':' + dir + ':'
 
-            faces = frontal_face_cascade.detectMultiScale(image, minSize=(100,100))
+                faces = frontal_face_cascade.detectMultiScale(image, minSize=(100,100))
 
-            faces = classification_utils.group_faces(faces)
+                faces = classification_utils.group_faces(faces)
 
-            for (x, y, w, h) in faces:
-                images.append(image[y: y+h, x: x+w])
-                labels.append(label)
+                for (x, y, w, h) in faces:
+                    images.append(image[y: y+h, x: x+w])
+                    labels.append(label)
 
-        print(images)
-        print(labels)
     return images, labels
 
+
+def check_trainer_accuracy():
+    testRecognizer = cv2.createLBPHFaceRecognizer(neighbors=5)
+    (train_images, train_labels) = get_images_and_labels(TRAINING_DIR)
+
+
+    test_images = []
+    test_labels = []
+
+    for i in range(0, len(train_images)/10):
+        index = random.randrange(len(train_images)-1)
+        test_images.append(train_images[index])
+        test_labels.append(train_labels[index])
+        del train_images[index]
+        del train_labels[index]
+
+    train_label_codes = []
+    for label in train_labels:
+        train_label_codes.append(classification_utils.lookup_code(label))
+
+    testRecognizer.train(train_images, numpy.array(train_label_codes))
+    testRecognizer.save("recognizer.dat")
+
+    num_correct = 0;
+    for i in range(0, len(test_images)):
+        predicted_label_code, confidence = testRecognizer.predict(test_images[i])
+        actual_label = test_labels[i]
+        predicted_label = classification_utils.lookup_label(predicted_label_code)
+        if predicted_label == actual_label:
+            num_correct += 1
+            print("Correctly predicted with confidence", confidence)
+        else:
+            print("Incorrectly recognized", actual_label, "as", predicted_label)
+
+    print("Predicted with", float(num_correct)/float(len(test_images)), "accuracy")
+
+
 if __name__ == '__main__':
+    check_trainer_accuracy()
+    '''
     recognizer = cv2.createLBPHFaceRecognizer()
     recognizer.save("recognizer.dat")
     recognizer.load("recognizer.dat")
@@ -78,5 +118,6 @@ if __name__ == '__main__':
 
     recognizer.train(images, numpy.array(label_code_array))
     recognizer.save("recognizer.dat")
+    '''
 
 

@@ -7,10 +7,12 @@ import classification_utils
 sys.path.append('/usr/local/lib/python2.7/site-packages')
 import cv2
 
+
 frontal_face_path = "./cascades/haarcascade_frontalface_default.xml"
 frontal_face_cascade = cv2.CascadeClassifier(frontal_face_path)
 recognizer = cv2.createLBPHFaceRecognizer()
 #recognizer = cv2.face.createLBPHFaceRecognizer()
+
 
 # takes a PIL image format
 def classify_image(image):
@@ -27,6 +29,7 @@ def classify_image(image):
     print("")
 
     return classification_utils.lookup_label(predicted_label_code)
+
 
 def test_images(path):
     for image in filter( lambda f: not f.startswith('.'), os.listdir(path)):
@@ -58,7 +61,7 @@ def classify_from_webcam():
         cv2.waitKey(1)
         time.sleep(1)
 
+
 if __name__ == '__main__':
     load_training()
-    classify_from_webcam()
 

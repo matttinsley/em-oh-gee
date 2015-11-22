@@ -4,6 +4,9 @@ import classification_utils
 sys.path.append('/usr/local/lib/python2.7/site-packages')
 import cv2
 
+frontal_face_path = "./cascades/haarcascade_frontalface_default.xml"
+frontal_face_cascade = cv2.CascadeClassifier(frontal_face_path)
+recognizer = cv2.createLBPHFaceRecognizer()
 
 # takes a PIL image format
 def classify_image(image):
@@ -17,15 +20,10 @@ def classify_image(image):
     predicted_label_code, confidence = recognizer.predict(image[y: y+h, x: x+w])
     return classification_utils.lookup_label(predicted_label_code)
 
-
-if __name__ == '__main__':
-
-    frontal_face_path = "./cascades/haarcascade_frontalface_default.xml"
-    frontal_face_cascade = cv2.CascadeClassifier(frontal_face_path)
-    recognizer = cv2.createLBPHFaceRecognizer()
+def load_training():
     recognizer.load("recognizer.dat")
 
+if __name__ == '__main__':
+    pass
     # Do classification here
     # classify_image(pil_image_object)
-
-

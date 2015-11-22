@@ -1,4 +1,9 @@
-codes = ['angry', 'happy']
+codes = ['', ':grinning_face:', ':smiling_face_with_smiling_eyes:', ':white_smiling_face:',
+         ':face_savouring_delicious_food:', ':grinning_face_with_smiling_eyes:', ':neutral_face:',
+         ':face_with_stuck-out_tongue:', ':face_with_stuck-out_tongue_and_winking_eye:',
+         ':face_with_stuck-out_tongue_and_tightly-closed_eyes:', ':pensive_face:', ':face_throwing_a_kiss:',
+         ':winking_face:', ':flushed_face:', ':loudly_crying_face:', ':angry_face:']
+
 
 def lookup_label(code):
     return codes[code]

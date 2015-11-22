@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from PIL import Image
 import emoji
 import face_recognition
@@ -38,6 +38,12 @@ def emoji_for_face():
     img_data = request.data
 
     return get_emoji(img_data)
+
+
+@app.route('/webcam')
+def webcam():
+    return render_template('classifier_demo.html', name="Webcam")
+
 
 @app.route('/')
 def test():
